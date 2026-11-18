@@ -629,20 +629,25 @@ for (const n of ['touchstart', 'touchmove', 'touchend', 'touchcancel']) canvas.a
 
 // ---------------------------------------------------------------- menu & XREAL Aura XR
 let menu = true, poseIdx = 0;
-const bDive = $('d'), bXR = $('xr');
+const bDive = $('d');
+let bXR = $('xr');
+if (!bXR && $('g')) {
+  bXR = document.createElement('button');
+  bXR.id = 'xr';
+  $('g').insertBefore(bXR, $('q'));
+}
 const ui = (m) => {
   if (dead) return;
   menu = m; body.className = m ? 'm' : document.pointerLockElement ? 'g p' : 'g';
-  if (m) { release(); setTimeout(() => menu && bDive.focus(), 100); } else document.activeElement?.blur();
+  if (m) { release(); setTimeout(() => menu && bDive?.focus(), 100); } else document.activeElement?.blur();
 };
 const go = () => {
-  sound(); ui(false); bDive.textContent = 'Resume';
+  sound(); ui(false); if (bDive) bDive.textContent = 'Resume';
   if (mob) document.documentElement.requestFullscreen?.()?.then(() => screen.orientation.lock('landscape')).catch(() => 0);
   if (!mob) capture();
 };
-bDive.onclick = go; $('o').onclick = () => ui(true);
-$('q').querySelectorAll('button').forEach((b, i) => { if (i === 2 - LV) b.className = 'on'; else b.onclick = () => { keep('abyssal', 2 - i); location.reload(); }; });
-document.addEventListener('pointerlockchange', () => { if (!xrActive) ui(!document.pointerLockElement); });
+if (bDive) bDive.onclick = go;
+if ($('o')) $('o').onclick = () => ui(true);
 
 const xr = new AbyssalXR(canvas, {
   onStart: () => {

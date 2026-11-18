@@ -32,7 +32,7 @@ body:not(.g) canvas { filter: blur(1vmax) brightness(.5); transform: scale(1.06)
 #m {
   position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: min(2.2em, 6vmin);
   padding: 1em 1em 4.5em; text-align: center; background: radial-gradient(#03131c00 30%, #03131ccc);
-  transition: opacity .5s, visibility .5s;
+  overflow-y: auto; transition: opacity .5s, visibility .5s;
 }
 .g #m, .m #l, .l #g { opacity: 0; visibility: hidden; }
 h1 {
@@ -133,7 +133,7 @@ svg { width: 1.5em; height: 1.5em; fill: currentColor; }
     <div id=l><div id=p><i id=b></i></div><p id=s>Diving…</p><p id=w hidden>Use Google Chrome for optimal experience</p></div>
     <div id=g>
       <button id=d>Dive in</button>
-      <button id=xr hidden>Enter XREAL Aura (XR)</button>
+      <button id=xr>Enter XREAL Aura (XR)</button>
       <p id=q><span>Detail</span><button>Low</button><button>Medium</button><button>High</button></p>
       <div id=k>
         <p>

@@ -705,7 +705,6 @@ if (xrMode) {
     try {
       await xr.start([F[CX], F[CY], F[CZ]], F[YAW], xrMode);
     } catch (err) {
-      // If immersive-ar failed and immersive-vr is available (or vice-versa), show exact error
       console.error(err);
       bXR.textContent = `XR Error: ${err.name || ''} ${err.message || err}`;
     }

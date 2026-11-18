@@ -693,17 +693,27 @@ const xr = new AbyssalXR(canvas, {
   },
 });
 
-if (await xr.isSupported('immersive-vr')) {
-  bXR.hidden = false;
+const hasAR = await xr.isSupported('immersive-ar');
+const hasVR = await xr.isSupported('immersive-vr');
+const xrMode = hasAR ? 'immersive-ar' : hasVR ? 'immersive-vr' : null;
+
+bXR.hidden = false;
+if (xrMode) {
+  bXR.textContent = `Enter XREAL Aura (${xrMode === 'immersive-ar' ? 'AR' : 'VR'})`;
   bXR.onclick = async () => {
     sound();
     try {
-      await xr.start([F[CX], F[CY], F[CZ]], F[YAW], 'immersive-vr');
+      await xr.start([F[CX], F[CY], F[CZ]], F[YAW], xrMode);
     } catch (err) {
+      // If immersive-ar failed and immersive-vr is available (or vice-versa), show exact error
       console.error(err);
-      bXR.textContent = 'XR unavailable: ' + err.message;
+      bXR.textContent = `XR Error: ${err.name || ''} ${err.message || err}`;
     }
   };
+} else {
+  bXR.disabled = true;
+  bXR.style.opacity = '0.5';
+  bXR.textContent = navigator.xr ? 'WebXR not supported on this device' : 'WebXR unavailable (needs HTTPS)';
 }
 
 // draw the first frame and wait for the GPU to finish it before reveal
